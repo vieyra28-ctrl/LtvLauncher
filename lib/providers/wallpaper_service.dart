@@ -16,15 +16,25 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import 'dart:io';
 import 'dart:async';
+import 'dart:developer' as developer;
+import 'dart:io';
 
 import 'package:flauncher/flauncher_channel.dart';
 import 'package:flauncher/gradients.dart';
 import 'package:flauncher/providers/settings_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+
+/// A landscape wallpaper bundled with the app (no file picker needed).
+class BundledWallpaper {
+  final String assetPath;
+  final String name;
+
+  const BundledWallpaper(this.assetPath, this.name);
+}
 
 class WallpaperService extends ChangeNotifier {
   final FLauncherChannel _fLauncherChannel;
@@ -41,6 +51,17 @@ class WallpaperService extends ChangeNotifier {
 
   ImageProvider?  get wallpaper     => _wallpaper;
   int             get version       => _version;
+
+  /// Landscapes shipped with the app, shown in Settings > Wallpaper > Paisajes.
+  /// Only the active one is ever loaded into memory (see setBundledWallpaper).
+  static const List<BundledWallpaper> bundledWallpapers = [
+    BundledWallpaper('assets/wallpapers/01-lago-montana.jpg', 'Lago y montaña'),
+    BundledWallpaper('assets/wallpapers/02-playa-atardecer.jpg', 'Playa al atardecer'),
+    BundledWallpaper('assets/wallpapers/03-bosque.jpg', 'Bosque'),
+    BundledWallpaper('assets/wallpapers/04-desierto.jpg', 'Desierto'),
+    BundledWallpaper('assets/wallpapers/05-montanas-nieve.jpg', 'Montañas nevadas'),
+    BundledWallpaper('assets/wallpapers/06-playa-tropical.jpg', 'Playa tropical'),
+  ];
 
   FLauncherGradient get gradient => FLauncherGradients.all.firstWhere(
         (gradient) => gradient.uuid == _settingsService.gradientUuid,
@@ -79,6 +100,13 @@ class WallpaperService extends ChangeNotifier {
     _wallpaperNightFile = File("${directory.path}/wallpaper_night");
 
     _lastTimeBasedEnabled = _settingsService.timeBasedWallpaperEnabled;
+
+    // First run: no wallpaper yet and no gradient explicitly chosen —
+    // show a landscape right away instead of the default dark gradient.
+    if (!await _wallpaperFile.exists() && _settingsService.gradientUuid == null) {
+      await setBundledWallpaper(bundledWallpapers.first.assetPath);
+    }
+
     await _updateWallpaper();
     _updateTimerState();
   }
@@ -133,6 +161,27 @@ class WallpaperService extends ChangeNotifier {
 
   Future<void> pickWallpaperNight() async {
     await _pickAndSave(_wallpaperNightFile);
+  }
+
+  /// Sets one of the bundled landscape wallpapers (loaded from app assets,
+  /// so it works on TVs without a file picker). Only the chosen wallpaper is
+  /// loaded into memory; the others are never precached or decoded.
+  Future<void> setBundledWallpaper(String assetPath) async {
+    try {
+      final data = await rootBundle.load(assetPath);
+      await _wallpaperFile.writeAsBytes(
+        data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+      );
+
+      // Evict from cache to ensure UI updates
+      await FileImage(_wallpaperFile).evict();
+
+      _version++;
+      await _updateWallpaper(force: true);
+    } catch (e, stack) {
+      // Asset missing (wallpapers not bundled yet): keep the current background.
+      developer.log("Failed to set bundled wallpaper $assetPath", error: e, stackTrace: stack);
+    }
   }
 
   Future<void> _pickAndSave(File targetFile) async {

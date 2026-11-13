@@ -103,6 +103,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get hiddenApplications => '非表示のアプリ';
 
   @override
+  String get landscapes => 'Landscapes';
+
+  @override
   String get launcherSections => 'セクション';
 
   @override

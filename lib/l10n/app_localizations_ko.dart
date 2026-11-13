@@ -103,6 +103,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get hiddenApplications => '숨겨진 앱';
 
   @override
+  String get landscapes => 'Landscapes';
+
+  @override
   String get launcherSections => '섹션';
 
   @override

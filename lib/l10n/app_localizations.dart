@@ -303,6 +303,12 @@ abstract class AppLocalizations {
   /// **'Hidden Apps'**
   String get hiddenApplications;
 
+  /// No description provided for @landscapes.
+  ///
+  /// In en, this message translates to:
+  /// **'Landscapes'**
+  String get landscapes;
+
   /// No description provided for @launcherSections.
   ///
   /// In en, this message translates to:

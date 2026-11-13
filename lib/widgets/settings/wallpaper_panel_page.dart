@@ -37,6 +37,10 @@ class WallpaperPanelPage extends StatelessWidget {
         children: [
           Text(localizations.wallpaper, style: Theme.of(context).textTheme.titleLarge),
           Divider(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
           Consumer<SettingsService>(
             builder: (_, settings, __) {
               return RoundedSwitchListTile(
@@ -69,7 +73,6 @@ class WallpaperPanelPage extends StatelessWidget {
                 return Column(
                   children: [
                     FocusableSettingsTile(
-                      autofocus: true,
                       leading: Icon(Icons.gradient),
                       title: Text(localizations.gradient, style: Theme.of(context).textTheme.bodyMedium),
                       onPressed: () => Navigator.of(context).pushNamed(GradientPanelPage.routeName),
@@ -79,10 +82,29 @@ class WallpaperPanelPage extends StatelessWidget {
                       title: Text(localizations.picture, style: Theme.of(context).textTheme.bodyMedium),
                       onPressed: () => _pickWallpaper(context, (s) => s.pickWallpaper(), localizations),
                     ),
+                    // Bundled landscapes: built-in, no file picker needed.
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16, bottom: 4, left: 16),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(localizations.landscapes, style: Theme.of(context).textTheme.titleMedium),
+                      ),
+                    ),
+                    ...WallpaperService.bundledWallpapers.map(
+                      (bundled) => FocusableSettingsTile(
+                        leading: Icon(Icons.landscape_outlined),
+                        title: Text(bundled.name, style: Theme.of(context).textTheme.bodyMedium),
+                        onPressed: () => context.read<WallpaperService>().setBundledWallpaper(bundled.assetPath),
+                      ),
+                    ),
                   ],
                 );
               }
             }
+          ),
+                ],
+              ),
+            ),
           ),
         ],
     );

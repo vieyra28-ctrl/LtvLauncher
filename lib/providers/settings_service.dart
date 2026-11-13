@@ -261,7 +261,9 @@ class SettingsService extends ChangeNotifier {
     _showNotificationsWidgetInStatusBar = _sharedPreferences.getBool(_showNotificationsWidgetInStatusBarKey) ?? true;
     _autoHideNotificationsWidget = _sharedPreferences.getBool(_autoHideNotificationsWidgetKey) ?? false;
     _appLanguage = _sharedPreferences.getString(_appLanguageKey) ?? "";
-    _showWeatherInStatusBar = _sharedPreferences.getBool(_showWeatherInStatusBarKey) ?? false;
+    // Shown by default: the temperature comes from the built-in Open-Meteo
+    // fallback, no extra app needed.
+    _showWeatherInStatusBar = _sharedPreferences.getBool(_showWeatherInStatusBarKey) ?? true;
     _showWeatherWarnings = _sharedPreferences.getBool(_showWeatherWarningsKey) ?? true;
     _temperatureUnit = _sharedPreferences.getString(_temperatureUnitKey) ?? TEMPERATURE_UNIT_CELSIUS;
     _autoAddNewApps = _sharedPreferences.getBool(_autoAddNewAppsKey) ?? true;

@@ -56,3 +56,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icon.png
+    - assets/wallpapers/01-lago-montana.jpg
+    - assets/wallpapers/02-playa-atardecer.jpg
+    - assets/wallpapers/03-bosque.jpg
+    - assets/wallpapers/04-desierto.jpg
+    - assets/wallpapers/05-montanas-nieve.jpg
+    - assets/wallpapers/06-playa-tropical.jpg

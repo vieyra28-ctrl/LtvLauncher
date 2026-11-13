@@ -103,6 +103,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get hiddenApplications => '已隐藏应用';
 
   @override
+  String get landscapes => 'Landscapes';
+
+  @override
   String get launcherSections => '分区';
 
   @override

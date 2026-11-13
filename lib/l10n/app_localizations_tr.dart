@@ -103,6 +103,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get hiddenApplications => 'Gizli Uygulamalar';
 
   @override
+  String get landscapes => 'Landscapes';
+
+  @override
   String get launcherSections => 'Bölümler';
 
   @override

@@ -103,6 +103,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get hiddenApplications => 'Приховані застосунки';
 
   @override
+  String get landscapes => 'Landscapes';
+
+  @override
   String get launcherSections => 'Розділи';
 
   @override

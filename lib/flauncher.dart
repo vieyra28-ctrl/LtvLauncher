@@ -213,9 +213,9 @@ class _FLauncherState extends State<FLauncher> {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Colors.black.withOpacity(0.35),
-                Colors.black.withOpacity(0.15),
-                Colors.black.withOpacity(0.45),
+                Colors.black.withOpacity(0.20),
+                Colors.black.withOpacity(0.05),
+                Colors.black.withOpacity(0.30),
               ],
             ),
           ),

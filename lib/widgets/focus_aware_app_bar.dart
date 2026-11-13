@@ -94,6 +94,21 @@ class FocusAwareAppBarState extends State<FocusAwareAppBar>
           elevation: 0,
           scrolledUnderElevation: 0,
           backgroundColor: Colors.transparent,
+          // Static greeting, centered in the free middle area of the top bar
+          // (between the left-side buttons and the right-side widgets).
+          flexibleSpace: const Center(
+            child: Text(
+              "Excelente día Familia Vieyra",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+                shadows: [
+                  Shadow(color: Colors.black54, offset: Offset(0, 2), blurRadius: 4)
+                ],
+              ),
+            ),
+          ),
           // Left side: Settings, Network indicator, WiFi usage
           title: Row(
             mainAxisSize: MainAxisSize.min,

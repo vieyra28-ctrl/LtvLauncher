@@ -103,6 +103,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get hiddenApplications => 'Applications masquées';
 
   @override
+  String get landscapes => 'Landscapes';
+
+  @override
   String get launcherSections => 'Sections';
 
   @override

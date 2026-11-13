@@ -103,6 +103,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get hiddenApplications => 'Скрытые приложения';
 
   @override
+  String get landscapes => 'Landscapes';
+
+  @override
   String get launcherSections => 'Разделы';
 
   @override
